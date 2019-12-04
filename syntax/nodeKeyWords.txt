@@ -1,0 +1,28 @@
+req :
+
+url
+headers
+methods
+on
+    data
+    end
+-----------------------------
+res :
+
+setHeader
+statsCode
+end
+write
+
+
+-----------------------------
+Buffer : allows to parse and concat chunk of req data
+
+    concat
+    toString
+
+fs :
+
+    writeFileSync - sync executiion
+    writeFile - async executiion
+
