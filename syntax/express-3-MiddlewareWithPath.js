@@ -35,4 +35,11 @@ app.post('/product', (req, res, next) => {
   res.redirect('/');
 });
 
+// if we have path as / and get or post or others method, below middleware will be called only if match is exact, otherwise it will not call 
+
+// /add-product or /someting will trigger this middleware
+app.get('/', (req, res, next) => {
+  next();
+});
+
 

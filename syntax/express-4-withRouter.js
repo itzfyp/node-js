@@ -1,11 +1,11 @@
 const express = require('express');
 
-// This will act as mini express app
-// We gonna do same setup for middlware that we done with express
 
+// this will act as mini express
+// later it will collabarated with manin express file and act together
 const routes = express.Router();
 
-routes.get('/add-product', (req, res, next) => {
+routes.use('/add-product', (req, res, next) => {
 
   res.send(`<form action="/product" method="POST">
               <input type="text" name="title"/>
@@ -21,6 +21,13 @@ routes.post('/product', (req, res, next) => {
 
 module.exports = routes;
 
-// app.js
+// How it will be used in app.js
 
-// How to use this routes;
+
+const adminRoutes = require('./routes/admin');
+
+const app = express();
+
+app.use(bodyParser.urlencoded({ extended: false }));
+
+app.use(adminRoutes);

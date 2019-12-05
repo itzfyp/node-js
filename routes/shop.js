@@ -1,9 +1,11 @@
+const path = require('path');
 const express = require('express');
 
 const routes = express.Router();
 
-routes.use('/', (req, res, next) => {
-  res.send('<h1>Home page</h1>');
+routes.get('/', (req, res, next) => {
+  const filePath = path.join(__dirname, '../', 'views', 'shop.html');
+  res.sendFile(filePath);
 });
 
 module.exports = routes;
