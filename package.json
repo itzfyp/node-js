@@ -1,0 +1,23 @@
+{
+  "name": "js",
+  "version": "1.0.0",
+  "description": "Node App",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/itzfyp/node-js.git"
+  },
+  "keywords": [
+    "node"
+  ],
+  "author": "Jayapal",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/itzfyp/node-js/issues"
+  },
+  "homepage": "https://github.com/itzfyp/node-js#readme"
+}
