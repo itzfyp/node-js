@@ -26,3 +26,8 @@ fs :
     writeFileSync - sync executiion
     writeFile - async executiion
 
+
+Links:
+
+https://code.visualstudio.com/docs/nodejs/nodejs-debugging
+
