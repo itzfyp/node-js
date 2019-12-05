@@ -19,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/itzfyp/node-js/issues"
   },
-  "homepage": "https://github.com/itzfyp/node-js#readme"
+  "homepage": "https://github.com/itzfyp/node-js#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.1"
+  }
 }
