@@ -17,4 +17,5 @@ app.use((req, res) => {
   res.status(404).sendFile(filePath);
 });
 
+// App Server starts here
 app.listen(3000)
