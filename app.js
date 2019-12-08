@@ -2,7 +2,7 @@ const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
 
-const adminData = require('./routes/admin');
+const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
 
 const app = express();
@@ -16,7 +16,7 @@ app.set('views', 'views');
 const publicFolderAccess = express.static(path.join(__dirname, 'public'));
 app.use(publicFolderAccess);
 
-app.use('/admin', adminData.routes);
+app.use('/admin', adminRoutes);
 app.use(shopRoutes);
 
 app.use((req, res) => {
