@@ -15,6 +15,7 @@ module.exports = class Product {
     this.imageUrl = imageUrl;
     this.description = description;
     this.price = price;
+    this.id = new Date().getTime().toString();
   }
 
   save() {
@@ -33,6 +34,14 @@ module.exports = class Product {
 
   static fetchAll(cb) {
     getProductsFromFile(cb)
+
+  }
+
+  static findById(id, cb) {
+    getProductsFromFile(products => {
+      const prods = products.find(p => p.id == id);
+      cb(prods);
+    })
 
   }
 };

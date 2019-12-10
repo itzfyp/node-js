@@ -13,6 +13,20 @@ exports.getProducts = (req, res, next) => {
   Product.fetchAll(sendProductsResponse);
 };
 
+exports.getProduct = (req, res, next) => {
+  const prodId = req.params.productId;
+
+  const sendProductResponse = product => {
+    res.render('shop/product-detail', {
+      product: product,
+      pageTitle: product.title,
+      path: '/products'
+    });
+  };
+
+  Product.findById(prodId, sendProductResponse);
+};
+
 exports.getIndex = (req, res, next) => {
 
   const sendProductsResponse = products => {
