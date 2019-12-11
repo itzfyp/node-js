@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const Cart = require('./cart');
 
 const p = path.join(path.dirname(process.mainModule.filename), 'data', 'products.json');
 
@@ -10,18 +11,27 @@ const getProductsFromFile = cb => {
 };
 
 module.exports = class Product {
-  constructor(title, imageUrl, description, price) {
+  constructor(id, title, imageUrl, description, price) {
+    this.id = id;
     this.title = title;
     this.imageUrl = imageUrl;
     this.description = description;
     this.price = price;
-    this.id = new Date().getTime().toString();
   }
 
   save() {
+    console.log(this);
 
     const writeIntoFile = products => {
-      products.push(this);
+      if (this.id) {
+        const existingProductIndex = products.findIndex(prd => prd.id == this.id);
+        const updatedProducts = [...products];
+        updatedProducts[existingProductIndex] = this;
+        products = updatedProducts;
+      } else {
+        this.id = new Date().getTime().toString();
+        products.push(this);
+      }
 
       fs.writeFile(p, JSON.stringify(products), err => {
         console.log('Error in Wrting Products');
@@ -30,6 +40,21 @@ module.exports = class Product {
 
     getProductsFromFile(writeIntoFile);
 
+  }
+
+  static deleteById(id) {
+    getProductsFromFile(products => {
+      const product = products.filter(p => p.id === id);
+      const updatedProducts = products.filter(p => p.id !== id);
+      fs.writeFile(p, JSON.stringify(updatedProducts), err => {
+        if (err)
+          console.log('Error in Wrting Products in deleteById');
+        else {
+          // id, product.id;
+          Cart.deleteProduct(id, product.id);
+        }
+      });
+    })
   }
 
   static fetchAll(cb) {
