@@ -13,9 +13,14 @@ exports.getAddProduct = (req, res, next) => {
 exports.postAddProduct = (req, res, next) => {
   const { title, imageUrl, price, description } = req.body;
   const product = new Product(null, title, imageUrl, description, price);
-  product.save();
 
-  res.redirect('/');
+  product.save()
+    .then(() => {
+      res.redirect('/');
+    })
+    .catch(err => {
+      console.log('Erro @ Admin controller : postAddProduct ==>', err);
+    });
 
 };
 

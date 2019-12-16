@@ -3,7 +3,7 @@ const Cart = require('../models/cart');
 
 exports.getProducts = (req, res, next) => {
 
-  const sendProductsResponse = products => {
+  const sendProductsResponse = ([products]) => {
     res.render('shop/product-list', {
       prods: products,
       pageTitle: 'All Products',
@@ -11,26 +11,34 @@ exports.getProducts = (req, res, next) => {
     });
   };
 
-  Product.fetchAll(sendProductsResponse);
+  Product.fetchAll()
+    .then(sendProductsResponse)
+    .catch(err => {
+      console.log('Error @ Shop controller : getProducts ==>', err);
+    });
 };
 
 exports.getProduct = (req, res, next) => {
   const prodId = req.params.productId;
 
-  const sendProductResponse = product => {
+  const sendProductResponse = ([product]) => {
     res.render('shop/product-detail', {
-      product: product,
+      product: product[0],
       pageTitle: product.title,
       path: '/products'
     });
   };
 
-  Product.findById(prodId, sendProductResponse);
+  Product.findById(prodId)
+    .then(sendProductResponse)
+    .catch(err => {
+      console.log('Error @ Shop controller : getProduct ==>', err);
+    });
 };
 
 exports.getIndex = (req, res, next) => {
 
-  const sendProductsResponse = products => {
+  const sendProductsResponse = ([products]) => {
     res.render('shop/index', {
       prods: products,
       pageTitle: 'Shop',
@@ -38,7 +46,11 @@ exports.getIndex = (req, res, next) => {
     });
   };
 
-  Product.fetchAll(sendProductsResponse);
+  Product.fetchAll()
+    .then(sendProductsResponse)
+    .catch(err => {
+      console.log('Error @ Shop controller : getIndex ==>', err);
+    });
 };
 
 exports.getCart = (req, res, next) => {
