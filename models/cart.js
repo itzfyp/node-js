@@ -56,6 +56,9 @@ module.exports = class Cart {
         const productIndex = cart.products.findIndex(pr => pr.id === id);
         const product = cart.products[productIndex];
 
+        if (!product)
+          return;
+
         cart.totalPrice -= (productPrice * product.qty);
 
         const products = cart.products.filter(pr => pr.id !== id);
