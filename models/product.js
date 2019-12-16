@@ -50,8 +50,7 @@ module.exports = class Product {
         if (err)
           console.log('Error in Wrting Products in deleteById');
         else {
-          // id, product.id;
-          Cart.deleteProduct(id, product.id);
+          Cart.deleteProduct(id, product[0].price);
         }
       });
     })

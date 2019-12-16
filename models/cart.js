@@ -51,7 +51,7 @@ module.exports = class Cart {
 
     fs.readFile(p, (err, fileContent) => {
       if (!err) {
-        const cart = { ...fileContent };
+        const cart = { ...(JSON.parse(fileContent)) };
 
         const productIndex = cart.products.findIndex(pr => pr.id === id);
         const product = cart.products[productIndex];
@@ -63,13 +63,20 @@ module.exports = class Cart {
         cart.products = products;
 
         fs.writeFile(p, JSON.stringify(cart), err => {
-          console.log('cart writing error');
+          if (err)
+            console.log('cart writing error');
         })
 
       }
     });
 
 
+  }
+
+  static fetchAll(cb) {
+    fs.readFile(p, (err, fileContent) => {
+      err ? cb(null) : cb(JSON.parse(fileContent));
+    });
   }
 
 }
