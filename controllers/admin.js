@@ -13,16 +13,24 @@ exports.getAddProduct = (req, res, next) => {
 exports.postAddProduct = (req, res, next) => {
   const { title, price, imageUrl, description } = req.body;
 
-  Product.create({
+
+  /*  Product.create({
+     title,
+     price,
+     imageUrl,
+     description
+   }) */
+  req.user.createProduct({
     title,
     price,
     imageUrl,
     description
-  }).then(() => {
-    res.redirect('/admin/products');
-  }).catch(err => {
-    console.log('Erro @ Admin controller : postAddProduct ==>', err);
-  });
+  })
+    .then(() => {
+      res.redirect('/admin/products');
+    }).catch(err => {
+      console.log('Erro @ Admin controller : postAddProduct ==>', err);
+    });
 
 };
 
@@ -33,8 +41,8 @@ exports.getEditProduct = (req, res, next) => {
 
   const prodId = req.params.productId;
 
-  const sendProductsResponse = product => {
-
+  const sendProductsResponse = products => {
+    let product = products[0] // only for req.user.getProducts
     if (!product)
       return res.redirect('/');
 
@@ -46,7 +54,8 @@ exports.getEditProduct = (req, res, next) => {
     });
   };
 
-  Product.findByPk(prodId)
+  // Product.findByPk(prodId)
+  req.user.getProducts({ where: { id: prodId } }) // it will return array of products
     .then(sendProductsResponse)
     .catch(err => {
       console.log('Error @ Admin controller : getEditProduct ==>', err);
@@ -84,7 +93,8 @@ exports.getProducts = (req, res, next) => {
     });
   };
 
-  Product.findAll()
+  // Product.findAll()
+  req.user.getProducts()
     .then(sendProductsResponse)
     .catch(err => {
       console.log('Error @ Admin controller : getProducts ==>', err);
