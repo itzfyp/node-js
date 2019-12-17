@@ -3,7 +3,7 @@ const Cart = require('../models/cart');
 
 exports.getProducts = (req, res, next) => {
 
-  const sendProductsResponse = ([products]) => {
+  const sendProductsResponse = products => {
     res.render('shop/product-list', {
       prods: products,
       pageTitle: 'All Products',
@@ -11,7 +11,7 @@ exports.getProducts = (req, res, next) => {
     });
   };
 
-  Product.fetchAll()
+  Product.findAll()
     .then(sendProductsResponse)
     .catch(err => {
       console.log('Error @ Shop controller : getProducts ==>', err);
@@ -21,15 +21,17 @@ exports.getProducts = (req, res, next) => {
 exports.getProduct = (req, res, next) => {
   const prodId = req.params.productId;
 
-  const sendProductResponse = ([product]) => {
+  const sendProductResponse = product => {
     res.render('shop/product-detail', {
-      product: product[0],
+      //  product: product[0], // for  findAll conditions
+      product: product,
       pageTitle: product.title,
       path: '/products'
     });
   };
 
-  Product.findById(prodId)
+  // Product.findAll({ where: { id: prodId } }) // returns array of selected rows
+  Product.findByPk(prodId)
     .then(sendProductResponse)
     .catch(err => {
       console.log('Error @ Shop controller : getProduct ==>', err);
@@ -38,7 +40,7 @@ exports.getProduct = (req, res, next) => {
 
 exports.getIndex = (req, res, next) => {
 
-  const sendProductsResponse = ([products]) => {
+  const sendProductsResponse = (products) => {
     res.render('shop/index', {
       prods: products,
       pageTitle: 'Shop',
@@ -46,7 +48,7 @@ exports.getIndex = (req, res, next) => {
     });
   };
 
-  Product.fetchAll()
+  Product.findAll()
     .then(sendProductsResponse)
     .catch(err => {
       console.log('Error @ Shop controller : getIndex ==>', err);

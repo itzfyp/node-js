@@ -7,6 +7,9 @@ const shopRoutes = require('./routes/shop');
 const errorController = require('./controllers/errors');
 const sequelize = require('./util/database');
 
+const Product = require('./models/product');
+const User = require('./models/user');
+
 const app = express();
 
 
@@ -24,14 +27,27 @@ app.use(shopRoutes);
 
 app.use(errorController.get404);
 
-sequelize.sync().then(r => {
-  console.log('sequelize result', r);
-  // App Server starts here
-  app.listen(3000)
-})
+Product.belongsTo(User, { constraints: true, onDelete: 'CASCADE' });
+User.hasMany(Product);
+
+sequelize
+  // .sync({ force: true })
+  .sync()
+  .then(() => User.findByPk(1))
+  .then(user => {
+    if (!user)
+      return User.create({ name: 'Jay', email: 'test@test.com' });
+    return Promise.resolve(user);
+  })
+  .then(() => {
+    // App Server starts here
+    app.listen(3000)
+  })
   .catch(err => {
     console.log('sequelize Error', err);
   });
+
+
 
 
 
