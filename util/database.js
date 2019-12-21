@@ -1,46 +1,32 @@
-// const mongodb = require('mongodb');
+const mongodb = require('mongodb');
 
-// const MongoClient = mongodb.MongoClient;
+const MongoClient = mongodb.MongoClient;
 
-// const dbSrc = 'mongodb+srv://node-complete:node-complete@cluster0-ubk2k.mongodb.net/test?retryWrites=true';
+const dbSrc = 'mongodb+srv://node-complete:node-complete@cluster0-ubk2k.mongodb.net/test?retryWrites=true';
 
-// const mongoConnect = cb => {
-//   MongoClient.connect(dbSrc, { useUnifiedTopology: true })
-//     .then(client => {
-//       console.log('Mongo connected.');
-//       cb(client);
-//     })
-//     .catch(err => {
-//       console.log('Error @ mongo db connect', err);
-//     });
-// };
-
-
-
-
-const MongoClient = require('mongodb').MongoClient;
-
-
+let _db;
 
 const mongoConnect = cb => {
-  console.log('calling mongoConnect...');
-  const uri = "mongodb+srv://node-complete:node-complete@cluster0-ubk2k.mongodb.net/test?retryWrites=true&w=majority";
-  const client = new MongoClient(uri, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-  });
-  client.connect()
-    .then(response => {
+  MongoClient.connect(dbSrc, { useUnifiedTopology: true })
+    .then(client => {
       console.log('Mongo connected.');
-      cb(response);
+      _db = client.db();
+      cb();
     })
     .catch(err => {
-      const collection = client.db("test").collection("devices");
-      // perform actions on the collection object
-      client.close();
+      console.log('Error @ mongo db connect', err);
+      throw err;
     });
-
 };
 
+const getDB = () => {
+  if (_db)
+    return _db;
+  throw 'No Database found'
+}
 
-module.exports = mongoConnect;
+
+
+
+exports.mongoConnect = mongoConnect;
+exports.getDB = getDB;
