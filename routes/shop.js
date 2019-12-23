@@ -11,15 +11,15 @@ routes.get('/products', shopController.getProducts);
 
 routes.get('/products/:productId', shopController.getProduct);
 
-// routes.get('/cart', shopController.getCart);
+routes.get('/cart', shopController.getCart);
 
-// routes.post('/cart', shopController.postCart);
+routes.post('/cart', shopController.postCart);
 
-// routes.post('/cart-delete-item', shopController.postCartDeleteProduct);
+routes.post('/cart-delete-item', shopController.postCartDeleteProduct);
 
-// routes.post('/create-order', shopController.postOrder);
+routes.post('/create-order', shopController.postOrder);
 
-// routes.get('/orders', shopController.getOrders);
+routes.get('/orders', shopController.getOrders);
 
 
 module.exports = routes;

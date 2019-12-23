@@ -90,7 +90,11 @@ exports.getProducts = (req, res, next) => {
     });
   };
 
-  Product.find()
+  Product
+    .find()
+    // this will select or populate given filed ony, -{filedName} - will be omitted from response
+    // .select('title price -_id')
+    // .populate('userId', 'name')
     .then(sendProductsResponse)
     .catch(err => {
       console.log('Error @ Admin controller : getProducts ==>', err);
