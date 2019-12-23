@@ -10,7 +10,7 @@ exports.getProducts = (req, res, next) => {
     });
   };
 
-  Product.fetchAll()
+  Product.find()
     .then(sendProductsResponse)
     .catch(err => {
       console.log('Error @ Shop controller : getProducts ==>', err);
@@ -22,15 +22,13 @@ exports.getProduct = (req, res, next) => {
 
   const sendProductResponse = product => {
     res.render('shop/product-detail', {
-      //  product: product[0], // for  findAll conditions
       product: product,
       pageTitle: product.title,
       path: '/products'
     });
   };
 
-  // Product.findAll({ where: { id: prodId } }) // returns array of selected rows
-  Product.findByPk(prodId)
+  Product.findById(prodId)
     .then(sendProductResponse)
     .catch(err => {
       console.log('Error @ Shop controller : getProduct ==>', err);
@@ -47,7 +45,7 @@ exports.getIndex = (req, res, next) => {
     });
   };
 
-  Product.fetchAll()
+  Product.find()
     .then(sendProductsResponse)
     .catch(err => {
       console.log('Error @ Shop controller : getIndex ==>', err);

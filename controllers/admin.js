@@ -13,8 +13,16 @@ exports.getAddProduct = (req, res, next) => {
 exports.postAddProduct = (req, res, next) => {
   const { title, price, imageUrl, description } = req.body;
 
-  const productRef = new Product(title, price, description, imageUrl, null, req.user._id);
-  productRef.save()
+  const productRef = new Product({
+    title,
+    price,
+    description,
+    imageUrl,
+    userId: req.user // req.user._id
+  });
+
+  productRef
+    .save()
     .then(() => {
       res.redirect('/admin/products');
     }).catch(err => {
@@ -42,7 +50,7 @@ exports.getEditProduct = (req, res, next) => {
     });
   };
 
-  Product.findByPk(prodId)
+  Product.findById(prodId)
     .then(sendProductsResponse)
     .catch(err => {
       console.log('Error @ Admin controller : getEditProduct ==>', err);
@@ -53,9 +61,17 @@ exports.postEditProduct = (req, res, next) => {
 
   const { title, price, imageUrl, description, productId } = req.body;
 
-  const productRef = new Product(title, price, description, imageUrl, productId);
+  Product
+    .findById(productId)
+    .then(product => {
 
-  productRef.save()
+      product.title = title;
+      product.price = price;
+      product.imageUrl = imageUrl;
+      product.description = description;
+
+      return product.save()
+    })
     .then(() => {
       res.redirect('/admin/products');
     })
@@ -74,8 +90,7 @@ exports.getProducts = (req, res, next) => {
     });
   };
 
-  // Product.findAll()
-  Product.fetchAll()
+  Product.find()
     .then(sendProductsResponse)
     .catch(err => {
       console.log('Error @ Admin controller : getProducts ==>', err);
@@ -86,7 +101,7 @@ exports.postDeleteProduct = (req, res, next) => {
 
   const prodId = req.body.productId;
 
-  Product.deleteById(prodId)
+  Product.findByIdAndRemove(prodId)
     .then(() => {
       res.redirect('/admin/products');
     })
