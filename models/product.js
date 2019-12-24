@@ -13,7 +13,7 @@ const productSchema = new Schema({
   },
   description: {
     type: String,
-    required: true,
+    required: true
   },
   imageUrl: {
     type: String,
@@ -28,79 +28,81 @@ const productSchema = new Schema({
 
 module.exports = mongoose.model('Product', productSchema);
 
-// const getDB = require('../util/database').getDB;
-// class Product {
+// const mongodb = require('mongodb');
+// const getDb = require('../util/database').getDb;
 
+// class Product {
 //   constructor(title, price, description, imageUrl, id, userId) {
 //     this.title = title;
 //     this.price = price;
 //     this.description = description;
 //     this.imageUrl = imageUrl;
-//     this._id = id && new mongoDB.ObjectID(id);
-//     this.userId = userId && new mongoDB.ObjectID(userId);
+//     this._id = id ? new mongodb.ObjectId(id) : null;
+//     this.userId = userId;
 //   }
 
 //   save() {
-//     const db = getDB();
-//     const dbColl = db.collection('products');
-//     let response$;
-
-//     if (this._id)
-//       response$ = dbColl.updateOne(
-//         { _id: this._id },
-//         { $set: this }
-//       )
-//     else
-//       response$ = dbColl.insertOne(this)
-
-//     return response$
-//       .then(res => {
-//         // console.log('product saved', res);
+//     const db = getDb();
+//     let dbOp;
+//     if (this._id) {
+//       // Update the product
+//       dbOp = db
+//         .collection('products')
+//         .updateOne({ _id: this._id }, { $set: this });
+//     } else {
+//       dbOp = db.collection('products').insertOne(this);
+//     }
+//     return dbOp
+//       .then(result => {
+//         console.log(result);
 //       })
 //       .catch(err => {
-//         console.log('Error @Product Model : saving product');
-//       })
+//         console.log(err);
+//       });
 //   }
 
 //   static fetchAll() {
-//     const db = getDB();
-//     return db.collection('products')
+//     const db = getDb();
+//     return db
+//       .collection('products')
 //       .find()
 //       .toArray()
 //       .then(products => {
-//         // console.log('products fetchAll', products);
+//         console.log(products);
 //         return products;
 //       })
 //       .catch(err => {
-//         console.log('Error @Product Model : fetchAll products');
-//       })
+//         console.log(err);
+//       });
 //   }
-//   static findByPk(prodId) {
-//     const db = getDB();
-//     return db.collection('products')
-//       .find({ _id: new mongoDB.ObjectID(prodId) })
+
+//   static findById(prodId) {
+//     const db = getDb();
+//     return db
+//       .collection('products')
+//       .find({ _id: new mongodb.ObjectId(prodId) })
 //       .next()
 //       .then(product => {
-//         // console.log('product findByPk', product);
+//         console.log(product);
 //         return product;
 //       })
 //       .catch(err => {
-//         console.log('Error @Product Model : findByPk product');
-//       })
+//         console.log(err);
+//       });
 //   }
 
 //   static deleteById(prodId) {
-//     const db = getDB();
-//     return db.collection('products')
-//       .deleteOne({ _id: new mongoDB.ObjectID(prodId) })
-//       .then(product => {
-//         console.log('product deleted', product);
+//     const db = getDb();
+//     return db
+//       .collection('products')
+//       .deleteOne({ _id: new mongodb.ObjectId(prodId) })
+//       .then(result => {
+//         console.log('Deleted');
 //       })
 //       .catch(err => {
-//         console.log('Error @Product Model :  deleteById product');
-//       })
+//         console.log(err);
+//       });
 //   }
-
 // }
 
-
+// module.exports = Product;
