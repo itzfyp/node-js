@@ -19,8 +19,7 @@ const store = new MongoDBStore({
   uri: MONGODB_URI,
   collection: "sessions",
 });
-
-const csrfPrection = csrf();
+const csrfProtection = csrf();
 
 app.set("view engine", "ejs");
 app.set("views", "views");
@@ -39,8 +38,7 @@ app.use(
     store: store,
   })
 );
-
-app.use(csrfPrection);
+app.use(csrfProtection);
 app.use(flash());
 
 app.use((req, res, next) => {
@@ -56,8 +54,8 @@ app.use((req, res, next) => {
 });
 
 app.use((req, res, next) => {
-  res.locals.csrfToken = req.csrfToken();
   res.locals.isAuthenticated = req.session.isLoggedIn;
+  res.locals.csrfToken = req.csrfToken();
   next();
 });
 
